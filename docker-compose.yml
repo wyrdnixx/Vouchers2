@@ -1,31 +1,33 @@
 version: '2.0'
 services:
-  app:
+  server:
     image: node:alpine               
-    command: sh -c 'npm install  --save-dev; npm install express --save-dev;  npm install moment --save-dev; npm install pdfmake --save-dev; npm install pdfgen --save-dev; npm install dotenv --save-dev; npm install cors --save-dev; npm install body-parser --save-dev; npm install mongodb --save-dev; npm install -g nodemon; nodemon index.js'
-    working_dir: /src/app/
+    command: sh -c 'echo "fooo" && yarn install && yarn run start.dev'
+
+
+    working_dir: /opt/server
     volumes:
-      - .:/src/app/      
+      - ./server/:/opt/server  
     ports:
       - "5000:5000"
     networks:
-      app-network:
+      dev-network:
         aliases:
-          - app.local
+          - server.local
   client:
     image: node:latest              
 #    command: sh -c 'npm install --save-dev;ls; pwd; npm run serve'
-    command: sh -c 'npm install --save axios; npm run serve'
+    command: sh -c 'yarn install ; yarn run serve'
 
 #    command: sh -c 'npm install  --save-dev; npm install --save axios; npm install -g nodemon; ls . ; nodemon src/main.js'
-    working_dir: /client/
+    working_dir: /opt/client
     volumes:
-      - ./client:/client/
+      - ./client:/opt/client
     ports:
       - "8080:8080"
       - "8000:8000"
     networks:
-      app-network:
+      dev-network:
         aliases:
           - client.local
   database:
@@ -40,11 +42,11 @@ services:
       - MONGODB_PASSWORD=mongo
       - MONGODB_DATABASE=DB
     networks:
-      app-network:
+      dev-network:
         aliases:
           - db.local
 networks:
-  app-network:
+  dev-network:
     driver: bridge
 volumes:
   mongodb:

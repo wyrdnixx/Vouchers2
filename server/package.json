@@ -1,8 +1,8 @@
 {
-  "name": "app",
+  "name": "server",
   "version": "1.0.0",
   "description": "sadfas",
-  "main": "src/app/index.js",
+  "main": "index.js",
   "scripts": {
     "start.dev": "nodemon",
     "start": "node index",
@@ -11,9 +11,7 @@
   "author": "asdfasd",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0"
-  },
-  "devDependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
@@ -22,5 +20,8 @@
     "mongodb": "^3.1.13",
     "pdfgen": "^1.2.0",
     "pdfmake": "^0.1.53"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  } 
 }
