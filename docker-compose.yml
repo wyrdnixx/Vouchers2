@@ -1,0 +1,49 @@
+version: '2.0'
+services:
+  app:
+    image: node:alpine               
+    command: sh -c 'npm install  --save-dev; npm install express --save-dev; npm install pdfgen --save-dev; npm install dotenv --save-dev; npm install cors --save-dev; npm install body-parser --save-dev; npm install mongodb --save-dev; npm install -g nodemon; nodemon index.js'
+    working_dir: /src/app/
+    volumes:
+      - .:/src/app/      
+    ports:
+      - "5000:5000"
+    networks:
+      app-network:
+        aliases:
+          - app.local
+  client:
+    image: node:alpine               
+#    command: sh -c 'npm install --save-dev;ls; pwd; npm run serve'
+    command: sh -c 'npm install --save axios; npm run serve'
+    working_dir: /client/
+    volumes:
+      - ./client:/client/
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    networks:
+      app-network:
+        aliases:
+          - client.local
+  database:
+    image: mongo:latest
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    ports:
+      - 27017:27017
+    environment:    
+      - MONGODB_USERNAME=mongo
+      - MONGODB_PASSWORD=mongo
+      - MONGODB_DATABASE=DB
+    networks:
+      app-network:
+        aliases:
+          - db.local
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  mongodb:
+  mongodb_config:
