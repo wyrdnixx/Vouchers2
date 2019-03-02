@@ -36,9 +36,7 @@
       <p class="error" v-if="error">{{ error}}</p>
     
       <div class="post" 
-      v-for="(post,index) in posts"
-      v-bind:item="post"
-      v-bind:index="index"
+      v-for="post in posts"
       v-bind:key="post._id"
       v-on:dblclick="deletePost(post._id)"
       >     
@@ -88,11 +86,11 @@ export default {
       
       var currentVoucher = this.posts[0];    
       console.log("Current Voucher: ", currentVoucher)
-      console.log("User : ->",user,"<-")
+      console.log("User : ->"+ user + "<-")
       if (typeof currentVoucher == "undefined") {
         console.log("No Voucher available ")
         this.msgFailed("ERROR: No Vouchers available")
-      }else if (user == " ") {
+      }else if (user == "") {
         console.log("No Username given ")
         this.msgFailed("ERROR: No Username given")
       }

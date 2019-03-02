@@ -2,9 +2,9 @@ import axios from 'axios';
 import { resolve } from "url";
 
 
-const url = `http://docker:5000/api/posts/`;
-const assigVoucherUrl = `http://docker:5000/api/posts/assignvoucher`;
-const pdfUrl = `http://docker:5000/api/posts/pdf`;
+const url = `http://192.168.178.29:5000/api/posts/`;
+const assigVoucherUrl = `http://192.168.178.29:5000/api/posts/assignvoucher`;
+const pdfUrl = `http://192.168.178.29:5000/api/posts/pdf`;
 
 class PostService {
 
