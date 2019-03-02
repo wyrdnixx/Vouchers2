@@ -2,7 +2,7 @@ version: '2.0'
 services:
   app:
     image: node:alpine               
-    command: sh -c 'npm install  --save-dev; npm install express --save-dev; npm install pdfgen --save-dev; npm install dotenv --save-dev; npm install cors --save-dev; npm install body-parser --save-dev; npm install mongodb --save-dev; npm install -g nodemon; nodemon index.js'
+    command: sh -c 'npm install  --save-dev; npm install express --save-dev; npm install pdfmake --save-dev; npm install pdfgen --save-dev; npm install dotenv --save-dev; npm install cors --save-dev; npm install body-parser --save-dev; npm install mongodb --save-dev; npm install -g nodemon; nodemon index.js'
     working_dir: /src/app/
     volumes:
       - .:/src/app/      
@@ -13,9 +13,11 @@ services:
         aliases:
           - app.local
   client:
-    image: node:alpine               
+    image: node:latest              
 #    command: sh -c 'npm install --save-dev;ls; pwd; npm run serve'
-    command: sh -c 'npm install --save axios; npm run serve'
+    command: sh -c 'npm install --save axios; npm run dev'
+
+#    command: sh -c 'npm install  --save-dev; npm install --save axios; npm install -g nodemon; ls . ; nodemon src/main.js'
     working_dir: /client/
     volumes:
       - ./client:/client/
