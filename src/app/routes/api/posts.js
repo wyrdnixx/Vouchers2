@@ -1,6 +1,6 @@
 const express = require(`express`)
 const mongodb = require(`mongodb`)
-//const pdfService = require(`./pdfService`)
+const pdfService = require(`./pdfService`)
 require('dotenv').config();
 
 const router = express.Router();
@@ -24,12 +24,13 @@ router.get(`/users`, async(req,res) => {
     res.send(await users.find({}).toArray());
 })
 
-router.get(`/pdf`, async(req, res) => {
+router.post(`/pdf`, async(req, res) => {
     
-    
-    res.send(pdfService.GenVoucherPdf());
+    console.log(`POSTS.js - generating PDF for user: `, req.body.user)
+    console.log(`POSTS.js - with voucher: `, req.body.voucher)
+    res.send(pdfService(req,res));
 })
-
+ 
 
 // Add user
 router.post(`/assignvoucher`, async (req,res) => {
@@ -37,7 +38,7 @@ router.post(`/assignvoucher`, async (req,res) => {
     const posts = await loadPostsCollection();
     console.log(`Request - Post - body: `, req.body)
     
-        console.log(`user: `, req.body.user)
+        console.log(`user: `, req.body.user) 
         console.log(`voucher: `, req.body.voucher)
         console.log(`roll: `, req.body.roll)
         

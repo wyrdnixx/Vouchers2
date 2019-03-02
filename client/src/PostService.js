@@ -4,6 +4,7 @@ import { resolve } from "url";
 
 const url = `http://docker:5000/api/posts/`;
 const assigVoucherUrl = `http://docker:5000/api/posts/assignvoucher`;
+const pdfUrl = `http://docker:5000/api/posts/pdf`;
 
 class PostService {
 
@@ -25,16 +26,12 @@ static getPosts() {
     })
 }
 
-/*
-static getVouchers() {
-    return new Promise(async (resolve, reject) => {
-        var _url = `http://docker:5000/api/posts/`;
-        try {
-            const res = await axios.get();
-        }
-    })
+static getVoucherPdf(voucher, user) {
+    return axios.post(pdfUrl, {
+        voucher,
+        user
+    });    
 }
-*/ 
 
     // Create Post
 static insertPost(text,info) {

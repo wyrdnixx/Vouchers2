@@ -87,11 +87,12 @@ export default {
     async assignVoucher(user) {
       
       var currentVoucher = this.posts[0];    
-
+      console.log("Current Voucher: ", currentVoucher)
+      console.log("User : ->",user,"<-")
       if (typeof currentVoucher == "undefined") {
         console.log("No Voucher available ")
         this.msgFailed("ERROR: No Vouchers available")
-      }else if (user = " ") {
+      }else if (user == " ") {
         console.log("No Username given ")
         this.msgFailed("ERROR: No Username given")
       }
@@ -105,7 +106,7 @@ export default {
       
 
       //--> PDf generieren
-
+      await PostService.getVoucherPdf(currentVoucher.voucher,user);
 
       this.posts = await PostService.getPosts();
       this.availableVouchers = this.posts.length;
