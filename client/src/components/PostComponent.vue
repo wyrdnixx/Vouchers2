@@ -55,6 +55,7 @@
 <script>
 
 import PostService from '../PostService'
+import axios from 'axios'
 export default {
   name: 'PostComponent',
   data () {
@@ -65,7 +66,8 @@ export default {
       roll: ``,
       user: ``,
       availableVouchers: ``,
-      togglevouchers: ``       
+      togglevouchers: ``
+          
     }
   },
   async created() {
@@ -105,7 +107,9 @@ export default {
       
 
       //--> PDf generieren
-      await PostService.getVoucherPdf(currentVoucher.voucher,user);
+      console.log(await PostService.getVoucherPdf(currentVoucher.voucher,user));
+
+
 
       this.posts = await PostService.getPosts();
       this.availableVouchers = this.posts.length;

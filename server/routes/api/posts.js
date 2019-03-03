@@ -12,8 +12,8 @@ const connectionString = `mongodb://${process.env.DBHOST}:${process.env.DBPORT}/
 
 router.get(`/`, async(req, res) => {
     const posts = await loadPostsCollection();
-    console.log(`Request - get `)
-    console.log(`Request - get: `, await posts.findOne())
+    console.log(`Request - get-URL: `, req.url)
+    console.log(`Request - getOnePost: `, await posts.findOne())
     res.send(await posts.find({}).toArray());
 })
 
@@ -32,7 +32,11 @@ router.get(`/pdf`, async(req, res) => {
    console.log(`POSTS.js - generating PDF for user: `, req.query.user)
    console.log(`POSTS.js - with voucher: `, req.query.voucher)
 
-     await pdfService(req,res)
+   res.setHeader('Content-disposition', 'attachment; filename="' + "file.pdf" + '"')
+  res.setHeader('Contend-type', 'application/pdf')
+   await pdfService.genPdf(req, res)
+
+   //res.send(await pdfService.genPdf(req, res)); 
     
 })
  

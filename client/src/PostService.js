@@ -29,45 +29,65 @@ static getPosts() {
             reject(err);
         }
     })
-}
+    }
  
-static getVoucherPdf(voucher, user) {
-/*
-    return axios.get(pdfUrl, {
-        voucher,
-        user
-    }   
-    */
+    static getVoucherPdf2(voucher, user) {
+        return new Promise(async (resolve, reject) => {
+        try {
+            const res =  axios.get(pdfUrl, {
+                params: {
+                    voucher: voucher,
+                    user: user
+                },
+                responseType: 'blob'
+            });
+            } catch(err) {
+                reject(err)
+            }
+        })
+    }
 
-    return axios.get(pdfUrl, {
-        params: {
-            voucher: voucher,
-            user: user
-        }
-    })
-}
+    static getVoucherPdf (voucher, user) {
+        axios({
+            url: pdfUrl,
+            method: 'GET',
+            responseType: 'blob', // important
+            params: {
+                voucher: voucher,
+                user: user
+            }
+          }).then((response) => {
+             const url = window.URL.createObjectURL(new Blob([response.data]));
+             const link = document.createElement('a');
+             link.href = url;
+             link.setAttribute('download', 'file.pdf'); //or any other extension
+             document.body.appendChild(link);
+             link.click();
+          });
+    }
+
 
     // Create Post
-static insertPost(text,info) {
+    static insertPost(text,info) {
     return axios.post(url, {
         text,
         info
     });
-}
+    }
 
-// Assign Voucher
-static assignVoucher(voucher, roll,user) {
-    return axios.post(assigVoucherUrl, {
-        voucher,
-        roll,
-        user
-    });
-}
+    // Assign Voucher
+    static assignVoucher(voucher, roll,user) {
+        return axios.post(assigVoucherUrl, {
+            voucher,
+            roll,
+            user
+        });
+    }
 
     // Delete Post
     static deletePost(id) {
         return axios.delete(`${url}${id}`);
-}
+    }
 
 }
 

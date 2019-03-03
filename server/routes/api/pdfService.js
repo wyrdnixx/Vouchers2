@@ -1,23 +1,26 @@
 //import { generateKeyPair } from 'crypto';
 
+
 const express = require('express');
 const PDFDocument = require('pdfmake');
-
+const moment = require('moment');
 var pdfMake = require('pdfmake');
 var PdfPrinter = require('pdfmake/src/printer');
 var virtualfs = require('pdfmake/build/vfs_fonts');
-const moment = require('moment');
-
-// var fs = require('fs');
 
 
+ var fs = require('fs');
 
-    module.exports = (req, res) => {
+class PdfService {
+
+  static genPdf(req, res)  {
+   
     const doc = new PDFDocument()
   let filename = encodeURIComponent('file.pdf')
 
   console.log(`pdfservice generating for user: `, req.query.user) 
   console.log(`voucher: `, req.query.voucher)
+
 
   res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"')
   res.setHeader('Contend-type', 'application/pdf')
@@ -47,39 +50,73 @@ var fonts = {
     pageSize: 'LEGAL',
     pageMargins: [20, 80, 20, 60],
 
+    
     header: {
-
+/*
       columns: [{
           // usually you would use a dataUri instead of the name for client-side printing
           // sampleImage.jpg however works inside playground so you can play with it
           image: 'images/logo.png',
           width: 130,
           absolutePosition: {
-            x: 400,
-            y: 10
+            x: 250,
+            y: 20
           }
-        },
-        {
-          text: 'Telefonliste - ' + getDate(),
-          bold: true,
-          absolutePosition: {
-            x: 50,
-            y: 30
-          }
-        }
+        }       
       ]
-    },
+      */
+    }, 
+    
     content: [
       
      // table(results.rows, ['title', 'name', 'surname', 'tel', 'mtel', 'mail', 'company', 'department']),
       
-
+     {
+      
+      // usually you would use a dataUri instead of the name for client-side printing
+      // sampleImage.jpg however works inside playground so you can play with it
+      image: 'images/logo.png',   
+      width: 50, 
+      height: 50,   
+      absolutePosition: {
+        x: 250,
+        y: 20
+      },
+      noWrap:false,
+    },
+  
+     {
+      relativePosition: {
+        x: 0,
+        y: 0
+      },
+      
+      text: 'WLAN-Voucher-Code - ' + getDate(),
+      bold: true,     
+      alignment: 'center'
+    },
 
       {
-        text: 'EnteEnteEnteEnteEnteEnteEnteEnteEnteEnteEnteEnteEnteEnte'
+        relativePosition: {
+          x: 0,
+          y: 100
+        },
+        text: 'Ihr persönlicher WLAN-Code'
       },
       {
-        text: 'BLABLA-BLUBLU',
+        relativePosition: {
+          x: 0,
+          y: 200
+        },
+        text: "Name: " + req.query.user,
+        bold: true
+      },
+      {
+        relativePosition: {
+          x: 0,
+          y: 300
+        },
+        text:  "Wlan Code: " +req.query.voucher,
         bold: true
       }
     ]
@@ -95,14 +132,14 @@ var fonts = {
   */
   var pdfDoc = printer.createPdfKitDocument(dd);
   console.log("pdfService.js ending")
-  //pdfDoc.pipe(fs.createWriteStream('./basics.pdf'));
+  pdfDoc.pipe(fs.createWriteStream('./basics.pdf'));
   pdfDoc.pipe(res);
   pdfDoc.end();
 ////////////////////
 
- 
-
+  //return (pdfDoc);
 }
 
+} 
 
-// export default pdfService;  
+ module.exports = PdfService;
