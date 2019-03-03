@@ -24,13 +24,19 @@ router.get(`/users`, async(req,res) => {
     res.send(await users.find({}).toArray());
 })
 
-router.post(`/pdf`, async(req, res) => {
-    
+router.get(`/pdf`, async(req, res) => {
+   /* 
     console.log(`POSTS.js - generating PDF for user: `, req.body.user)
     console.log(`POSTS.js - with voucher: `, req.body.voucher)
-    res.send(pdfService(req,res));
+    */
+   console.log(`POSTS.js - generating PDF for user: `, req.query.user)
+   console.log(`POSTS.js - with voucher: `, req.query.voucher)
+
+     await pdfService(req,res)
+    
 })
  
+
 
 // Add user
 router.post(`/assignvoucher`, async (req,res) => {

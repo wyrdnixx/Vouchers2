@@ -2,6 +2,7 @@ import axios from 'axios';
 import { resolve } from "url";
 
 
+
 const url = `http://docker:5000/api/posts/`;
 const assigVoucherUrl = `http://docker:5000/api/posts/assignvoucher`;
 const pdfUrl = `http://docker:5000/api/posts/pdf`;
@@ -31,10 +32,19 @@ static getPosts() {
 }
  
 static getVoucherPdf(voucher, user) {
-    return axios.post(pdfUrl, {
+/*
+    return axios.get(pdfUrl, {
         voucher,
         user
-    });    
+    }   
+    */
+
+    return axios.get(pdfUrl, {
+        params: {
+            voucher: voucher,
+            user: user
+        }
+    })
 }
 
     // Create Post
