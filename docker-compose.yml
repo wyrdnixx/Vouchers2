@@ -16,10 +16,8 @@ services:
           - server.local
   client:
     image: node:latest              
-#    command: sh -c 'npm install --save-dev;ls; pwd; npm run serve'
-    command: sh -c 'yarn install ; yarn run serve'
-
-#    command: sh -c 'npm install  --save-dev; npm install --save axios; npm install -g nodemon; ls . ; nodemon src/main.js'
+#    hostname: docker
+    command: sh -c 'yarn install ; yarn run serve '
     working_dir: /opt/client
     volumes:
       - ./client:/opt/client

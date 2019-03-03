@@ -69,6 +69,7 @@ export default {
     }
   },
   async created() {
+  
     try {
       this.posts = await PostService.getPosts();
       this.availableVouchers = this.posts.length;
