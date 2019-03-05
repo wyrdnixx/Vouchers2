@@ -40,11 +40,55 @@ router.get(`/pdf`, async(req, res) => {
     
 })
  
+router.get(`/patVoucher`, async(req,res) => {
+    console.log("get patVoucher")    
+
+    console.log(`patVoucher: query`, req.query)
+
+    console.log(`patVoucher: Pat`, req.query.pat)
+    console.log(`patVoucher: Name`, req.query.chr)
+    console.log(`patVoucher: Nachname`, req.query.name)
+    console.log(`patVoucher: User`, req.query.user)
+
+    const posts = await loadPostsCollection();
+    const namedVouchers = await loadNamedVochersCollection();
+
+    const oneVoucher = await posts.findOne()
+    console.log(`patVoucher - getOneVoucher: `,oneVoucher.voucher )
+    
+
+    await namedVouchers.insertOne({
+        voucher: oneVoucher.voucher,
+        pat: req.query.pat,
+        chr: req.query.chr,
+        name: req.query.name,
+        user: req.query.user,
+        createdAt: new Date()
+    }, function(err,obj){
+        if (err) throw err;
+        console.log(`assigned voucher: "${ oneVoucher.voucher}" to user: ${ req.query.name} , ${ req.query.chr} `);              
+    });
+    
+    var currentvoucher = {
+        voucher: oneVoucher.voucher            
+    }
+
+    await posts.deleteOne(currentvoucher, function(err,obj) {
+        if (err) throw err;
+        console.log(`deleted voucher from vouchers-DB: `, currentvoucher.voucher);
+        console.log(`deleted Result-Object-count: `, obj.deletedCount);
+    })
+    await pdfService.patVoucher(req, res,oneVoucher)     
+
+
+
+})
+
 
 
 // Add user
 router.post(`/assignvoucher`, async (req,res) => {
-    const users = await loadVocherUserCollection();
+    const users = await loadNamedVochersCollection();
     const posts = await loadPostsCollection();
     console.log(`Request - Post - body: `, req.body)
     
@@ -128,13 +172,13 @@ async function loadPostsCollection() {
         
 }
 
-async function loadVocherUserCollection() {
+async function loadNamedVochersCollection() {
     
     console.log("ConnectionString: ", connectionString)
     const client = await mongodb.MongoClient.connect(connectionString, {
         useNewUrlParser: true
     })
-    return client.db(process.env.DBDATABASE).collection(`voucherUser`); 
+    return client.db(process.env.DBDATABASE).collection(`namedVocuhers`); 
         
 }
 

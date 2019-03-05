@@ -5,8 +5,10 @@ Postman Test infos:
 GET
 
 -> voucher per URL generieren
-
 http://docker:5000/api/posts/pdf?user=Hans&voucher=123sadf3fdgh
+
+-> Voucher KIS Schnittstelle
+http://docker:5000/api/posts/patVoucher/?pat=19001111&chr=Hubert&name=Mayer&user=F-HANS
 
 
 -> user mit zugewiesenem voucher auslesen
