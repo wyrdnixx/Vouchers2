@@ -4,14 +4,19 @@ Postman Test infos:
 
 GET
 
+-> voucher per URL generieren
+
+http://docker:5000/api/posts/pdf?user=Hans&voucher=123sadf3fdgh
+
+
 -> user mit zugewiesenem voucher auslesen
 http://docker:5000/api/posts/users
 
--> verfügbare voucher auslesen
+-> verfï¿½gbare voucher auslesen
 http://docker:5000/api/posts
 
 Posts:
--> Voucher hinzu fügen:
+-> Voucher hinzu fï¿½gen:
 http://docker:5000/api/posts
 
 RAW:

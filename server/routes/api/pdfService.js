@@ -92,6 +92,7 @@ var fonts = {
       },
       
       text: 'WLAN-Voucher-Code - ' + getDate(),
+      fontSize: 28,
       bold: true,     
       alignment: 'center'
     },
@@ -101,7 +102,7 @@ var fonts = {
           x: 0,
           y: 100
         },
-        text: 'Ihr persönlicher WLAN-Code'
+        text: 'Ihr persönlicher WLAN-Code',        
       },
       {
         relativePosition: {
@@ -109,7 +110,8 @@ var fonts = {
           y: 200
         },
         text: "Name: " + req.query.user,
-        bold: true
+        bold: true,
+        fontSize: 22
       },
       {
         relativePosition: {
@@ -117,7 +119,8 @@ var fonts = {
           y: 300
         },
         text:  "Wlan Code: " +req.query.voucher,
-        bold: true
+        bold: true,
+        fontSize: 22
       }
     ]
   }
