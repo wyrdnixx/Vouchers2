@@ -4,6 +4,8 @@ import { resolve } from "url";
 
 
 const url = `http://docker:5000/api/posts/`;
+const archiveUrl = `http://docker:5000/api/posts/archive`;
+
 const assigVoucherUrl = `http://docker:5000/api/posts/assignvoucher`;
 const pdfUrl = `http://docker:5000/api/posts/pdf`;
 
@@ -31,6 +33,26 @@ static getPosts() {
     })
     }
  
+       // Get Archive
+static getArchive() {
+
+    console.log("in getArchive")
+    return new Promise(async (resolve, reject) => {
+        try {            
+            const res = await axios.get(archiveUrl);
+            const data = res.data;
+            resolve(
+                data.map(archived => ({
+                    ...archived,
+                   // createdAt: new Date(archived.createdAt)
+                }))
+            );
+        }catch(err) {
+            reject(err);
+        }
+    })
+    }
+
     static getVoucherPdf2(voucher, user) {
         return new Promise(async (resolve, reject) => {
         try {

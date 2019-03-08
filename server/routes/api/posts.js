@@ -24,6 +24,13 @@ router.get(`/users`, async(req,res) => {
     res.send(await users.find({}).toArray());
 })
 
+// get Archive
+router.get(`/archive`, async(req,res) => {
+    const archived = await loadVouchersArchiveCollection();
+    console.log(`Found users in DB: `, await archived.findOne())
+    res.send(await archived.find({}).toArray());
+})
+
 router.get(`/pdf`, async(req, res) => {
    /* 
     console.log(`POSTS.js - generating PDF for user: `, req.body.user)
@@ -51,13 +58,13 @@ router.get(`/patVoucher`, async(req,res) => {
     console.log(`patVoucher: User`, req.query.user)
 
     const posts = await loadPostsCollection();
-    const namedVouchers = await loadNamedVochersCollection();
+    const vouchersArchvie = await loadVouchersArchiveCollection();
 
     const oneVoucher = await posts.findOne()
     console.log(`patVoucher - getOneVoucher: `,oneVoucher.voucher )
     
 
-    await namedVouchers.insertOne({
+    await vouchersArchvie.insertOne({
         voucher: oneVoucher.voucher,
         pat: req.query.pat,
         chr: req.query.chr,
@@ -88,7 +95,7 @@ router.get(`/patVoucher`, async(req,res) => {
 
 // Add user
 router.post(`/assignvoucher`, async (req,res) => {
-    const users = await loadNamedVochersCollection();
+    const archive = await loadVouchersArchiveCollection();
     const posts = await loadPostsCollection();
     console.log(`Request - Post - body: `, req.body)
     
@@ -97,7 +104,7 @@ router.post(`/assignvoucher`, async (req,res) => {
         console.log(`roll: `, req.body.roll)
         
         
-            await users.insertOne({
+            await archive.insertOne({
                 voucher: req.body.voucher,
                 roll: req.body.roll,
                 user: req.body.user,
@@ -172,13 +179,13 @@ async function loadPostsCollection() {
         
 }
 
-async function loadNamedVochersCollection() {
+async function loadVouchersArchiveCollection() {
     
     console.log("ConnectionString: ", connectionString)
     const client = await mongodb.MongoClient.connect(connectionString, {
         useNewUrlParser: true
     })
-    return client.db(process.env.DBDATABASE).collection(`namedVocuhers`); 
+    return client.db(process.env.DBDATABASE).collection(`VouchersArchive`); 
         
 }
 

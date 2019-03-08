@@ -12,6 +12,7 @@
  
     <div class="create-post">
       <p class="text"><a href="#" @click='toggleVouchers'>Vouchers available: {{availableVouchers}}</a></p><br>       
+      <p class="text"><a href="#" @click='toggleArchive'>Vouchers Archiv</a></p><br>       
 
       
       <!--  
@@ -49,6 +50,24 @@
         </div>
       </div>
     </div>
+     <div class="post-container" v-show="toggleArchive">
+      <p class="text">Vouchers Archiv</p><br>
+      <p class="error" v-if="error">{{ error}}</p>
+    
+      <div class="post" 
+      v-for="code in archived"
+      v-bind:key="code._id"
+      
+      >     
+        <div class="create-post">
+          <p class="text">Roll: {{voucher.roll}}
+          Voucher: {{voucher.voucher}}</p>
+          
+         <!--  <input type="text" id="user" v-model="user" placeholder="Assign Voucher">          
+         <button v-on:click="assignVoucher(post.voucher,post.roll,user)">Assign Voucher</button> -->
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -60,7 +79,8 @@ export default {
   name: 'PostComponent',
   data () {
     return {
-      posts: [], 
+      posts: [],
+      archived: [], 
       error: ``, 
       voucher: ``,
       roll: ``,
@@ -126,6 +146,10 @@ export default {
       this.togglevouchers = !this.togglevouchers;
             this.posts = await PostService.getPosts();
       this.availableVouchers = this.posts.length;
+    },async toggleArchive() {
+      this.toggleArchive = !this.toggleArchive;
+            this.archived = await PostService.getArchive();  
+      //this.archived = this.archived.length;
     },
     msgFailed: function(data) {
 
