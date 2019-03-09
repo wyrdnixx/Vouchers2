@@ -165,8 +165,7 @@
 
                                                 this.togglearchive = !this.togglearchive;
                                                 try {
-                                                    this.archived = await PostService.getArchive();
-                                                    console.log("Archive: " + this.archived[0]._id)
+                                                    this.archived = await PostService.getArchive();                                                    
                                                 } catch (err) {
                                                     this.error = err.message;
                                                     this.msgFailed("ERROR: " + this.err)
@@ -247,7 +246,7 @@
                                       border: 1px solid black;
                                     }
                                      td {
-                                       padding: 10px;
+                                       padding: 4px;
                                        font-size: 14px;
                                        font-weight: 500;
                                        margin-bottom: 0;

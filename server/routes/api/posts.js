@@ -59,10 +59,26 @@ router.get(`/patVoucher`, async(req,res) => {
 
     const posts = await loadPostsCollection();
     const vouchersArchvie = await loadVouchersArchiveCollection();
+    
+        console.log("patVoucher - Get one free voucher fom Database")
+        const oneVoucher = await posts.findOne()
+        
+        if(oneVoucher !== null) {
+            console.log(`patVoucher - got voucher: `,oneVoucher )
+            console.log(`patVoucher - from roll: `,oneVoucher.roll )
+        } else {
+            console.log(`patVoucher - cannot get free voucher: ` )
+            res.send("Fehler: Es konnte kein freier Voucher zugewiesen werden. Keine Vouchers mehr verfügbar?");
+        }
+        
+    
+    
+    
+    
 
-    const oneVoucher = await posts.findOne()
-    console.log(`patVoucher - getOneVoucher: `,oneVoucher.voucher )
-    console.log(`patVoucher - getOneVoucher-roll: `,oneVoucher.roll )
+
+        
+    
     
 
     await vouchersArchvie.insertOne({
