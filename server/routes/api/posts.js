@@ -62,10 +62,12 @@ router.get(`/patVoucher`, async(req,res) => {
 
     const oneVoucher = await posts.findOne()
     console.log(`patVoucher - getOneVoucher: `,oneVoucher.voucher )
+    console.log(`patVoucher - getOneVoucher-roll: `,oneVoucher.roll )
     
 
     await vouchersArchvie.insertOne({
         voucher: oneVoucher.voucher,
+        roll: oneVoucher.roll,
         pat: req.query.pat,
         chr: req.query.chr,
         name: req.query.name,
