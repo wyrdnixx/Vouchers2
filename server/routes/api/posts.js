@@ -64,7 +64,7 @@ router.get(`/patVoucher`, async(req,res) => {
         const oneVoucher = await posts.findOne()
         
         if(oneVoucher !== null) {
-            console.log(`patVoucher - got voucher: `,oneVoucher )
+            console.log(`patVoucher - got voucher: `,oneVoucher.voucher )
             console.log(`patVoucher - from roll: `,oneVoucher.roll )
         } else {
             console.log(`patVoucher - cannot get free voucher: ` )
