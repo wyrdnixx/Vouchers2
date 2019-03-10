@@ -185,7 +185,7 @@ class PdfService {
         const doc = new PDFDocument()
         let filename = encodeURIComponent('file.pdf')
 
-        console.log(`pdfservice generating for user: `, req.query.user)
+        console.log(`pdfservice generating for user: `, req.query.kunde)
         console.log(`voucher: `, req.query.voucher)
 
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"')
@@ -268,7 +268,7 @@ class PdfService {
                         x: 0,
                         y: 200
                     },
-                    text: "Name: " + req.query.user,
+                    text: "Name: " + req.query.kunde,
                     bold: true,
                     fontSize: 22
                 }, {

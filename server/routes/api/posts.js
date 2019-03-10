@@ -36,7 +36,7 @@ router.get(`/pdf`, async(req, res) => {
     console.log(`POSTS.js - generating PDF for user: `, req.body.user)
     console.log(`POSTS.js - with voucher: `, req.body.voucher)
     */
-   console.log(`POSTS.js - generating PDF for user: `, req.query.user)
+   console.log(`POSTS.js - generating PDF for user: `, req.query.kunde)
    console.log(`POSTS.js - with voucher: `, req.query.voucher)
 
    res.setHeader('Content-disposition', 'attachment; filename="' + "file.pdf" + '"')
@@ -117,7 +117,7 @@ router.post(`/assignvoucher`, async (req,res) => {
     const posts = await loadPostsCollection();
     console.log(`Request - Post - body: `, req.body)
     
-        console.log(`user: `, req.body.user) 
+        console.log(`kunde: `, req.body.kunde) 
         console.log(`voucher: `, req.body.voucher)
         console.log(`roll: `, req.body.roll)
         
@@ -125,11 +125,11 @@ router.post(`/assignvoucher`, async (req,res) => {
             await archive.insertOne({
                 voucher: req.body.voucher,
                 roll: req.body.roll,
-                user: req.body.user,
+                chr: req.body.kunde,
                 createdAt: new Date()
             }, function(err,obj){
                 if (err) throw err;
-                console.log(`assigned voucher: "${ req.body.voucher}" to user: ${ req.body.user} `);              
+                console.log(`assigned voucher: "${ req.body.voucher}" to user: ${ req.body.kunde} `);              
             });
             var currentvoucher = {
                 voucher: req.body.voucher,

@@ -77,14 +77,14 @@ static getArchive() {
         })
     }
 
-    static getVoucherPdf (voucher, user) {
+    static getVoucherPdf (voucher, kunde) {
         axios({
             url: pdfUrl,
             method: 'GET',
             responseType: 'blob', // important
             params: {
                 voucher: voucher,
-                user: user
+                kunde: kunde
             }
           }).then((response) => {
              const url = window.URL.createObjectURL(new Blob([response.data]));
