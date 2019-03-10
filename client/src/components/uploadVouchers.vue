@@ -1,0 +1,166 @@
+<template>
+
+    <div class="container">
+
+        <a href="#" @click='toggleVoucherbox'><h1>Upload New Vouchers</h1></a> 
+         <div class="post-container" v-show="togglevoucherbox">             
+             <textarea class="textarea" :id="id" v-model="textarea"> 
+             </textarea>
+             <a href="#" @click='uploadVouchers'><h1>Upload</h1></a> 
+         </div>
+    </div>
+</template>
+
+     <script>
+
+                                    //import PostService from '../PostService'
+                                    import axios from 'axios'
+                                    export default {
+                                        name: 'uploadVouchers',
+                                        data() {
+                                            return {                                              
+                                                error: ``,
+                                                newvouchers: ``,
+                                                roll: ``,
+                                                textarea: null,
+                                                id: `,`,
+                                                togglevoucherbox: ``,
+                                                
+                                        
+                                            }
+                                            
+                                        },                                      
+                                        async created() {
+
+                                        },
+                                        methods: {                                            
+                                            toggleVoucherbox() {
+                                                this.togglevoucherbox = !this.togglevoucherbox;                                                
+                                            },
+                                            uploadVouchers(){
+                                                var checkInput = true
+
+                                                //console.log("Input: ",this.textarea )
+                                                // Input zerteilen in einzelne Zeilen
+                                                var lines = $('textarea').val().split('\n');
+
+                                                // Prüfung des inputs, ob es den vorgaben entspricht
+                                                for(var i = 0;i < lines.length;i++){
+                                                //    console.log("First char: ",lines[i].slice(0,1) )
+                                                //    console.log("last char: ",lines[i].slice(-1) )
+                                                
+                                                    // die ersen 7 Zeilen beginnen mit #
+                                                    if (i <=6 && (lines[i].slice(0,1) == "#") ){
+                                                        // console.log("Line correct: ",i)
+                                                    }
+                                                    // die folgenden Zeilen beginnen und enden mit " oder ist leer
+                                                    else if (i > 6 && (lines[i].slice(0,1) == '"') &&  (lines[i].slice(-1) == '"')  ||  lines[i] == '') {
+                                                      //  console.log("Line correct: ",i)                                                    
+                                                    }
+                                                    // eine Zeile entspricht nicht den vorgaben
+                                                    else {
+                                                        console.log("Invalid Line: ", i)
+                                                        this.msgFailed("Eingabe Fehlerhaft - Vouchercodes incl. Headerzeilen und Anführungszeichen eingeben!")
+                                                        checkInput = false
+                                                    }
+                                                }
+                                                   // wenn die validierung erfolgreich war
+                                                if (checkInput) {
+
+                                                    //Rollennumer aus der ersen Zeile (leztes "wort") lesen
+                                                    var n = lines[0].split(" ")
+                                                    var rollnr = n[n.length - 1]
+
+                                                    console.log("Voucher Rolle nummer: " + rollnr  )
+
+                                                    var jsonobj = JSON.parse("[]")
+                                                     
+
+
+                                                    // beginne in Zeile 7 mit den voucher Codes
+                                                    for(var i = 7;i < lines.length;i++){                                                                                                     
+                                                   
+                                                        var obj = JSON.stringify({"voucher": lines[i].replace(/"/g,""), "roll": rollnr})
+                                                        console.log(obj)
+                                                        jsonobj.push(obj)
+                                                    
+                                                    }
+                                                    console.log(jsonobj)
+                                                    //this.postVouchers(jsonobj)
+                                                    this.postVouchers(jsonobj).then(
+                                                        response => {
+                                                            console.log("Ergebniss:" + response.statusText) // actually outputs a string
+
+                                                            // Wenn Ergebniss erfolgeich, dann status anzeigen und Webseite neuladen
+                                                            if (response.statusText == "Created") {
+                                                                this.msgInfo("Voucher Codes wurden erfolgreich hochgeladen")                                                                
+                                                                setTimeout(function () {
+                                                                    location.reload()
+                                                                }, 5000)
+
+                                                            }
+                                                        }
+                                                    ).catch(
+                                                       error => console.log("ERROR: " +error)
+                                                    );
+                                                }
+                                            }, 
+                                            postVouchers(data) {    
+                                             //const   url = "http://docker:5000/api/posts"
+                                             //console.log('window.location', window.location.origin);
+
+                                             const url = window.location.protocol + "//"+ window.location.hostname +":5000/api/posts/uploadVouchers"
+                                             console.log("URL: ", url)
+                                            //return new Promise(async (resolve, reject) => {
+                                            //try {            
+                                            //    const res = await axios.post(url, {
+                                            //        data
+                                            //    });
+                                            //     this.msgFailed(res);
+                                            //    }catch(err) {
+                                            //        this.msgFailed(err.message);
+                                            //    }
+                                            //})
+                                            return new Promise(async (resolve, reject) => {
+                                            const res = await axios.post(url, {
+                                                data
+                                              })
+                                              .then(function (response) {                                                                                                
+                                               resolve(response);
+                                              })
+                                              .catch(function (error) {
+                                                console.log(error);
+                                              });
+                                            })
+                                            },                                           
+                                            msgFailed: function (data) {
+
+                                                console.log("in error message function")
+
+                                                $("#msg").css(
+                                                    {"background-color": "rgb(248, 66, 66)", "border-radius": "20px"}
+                                                );
+                                                $('#msg')
+                                                    .html(data)
+                                                    .fadeIn('slow');
+                                                $('#msg')
+                                                    .delay(3000)
+                                                    .fadeOut('slow');
+                                            },
+                                            msgInfo: function (data) {
+
+                                                console.log("in correct message function")
+
+                                                $("#msg").css(
+                                                    {"background-color": "rgb(3, 173, 37)", "border-radius": "20px"}
+                                                );
+                                                $('#msg')
+                                                    .html(data)
+                                                    .fadeIn('slow');
+                                                $('#msg')
+                                                    .delay(3000)
+                                                    .fadeOut('slow');
+                                            }
+                                        }
+                                    }
+                                </script>

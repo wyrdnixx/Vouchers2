@@ -173,8 +173,26 @@ router.post(`/`, async (req,res) => {
 
     //status 201 = http-OK Status
     res.status(201).send();
+
+    
+
 })
 
+router.post('/uploadVouchers', async(req,res) => {
+    const posts = await loadPostsCollection();
+    console.log(`Request - Post - body: `, req.body)
+ 
+    req.body.data.forEach(async doc  => {
+        console.log(`Element: `, doc)
+        await posts.insertOne({
+            voucher: doc.voucher,
+            roll: doc.roll            
+        });
+    })
+    res.status(201).send();
+// res.status(500).send();
+
+})
 
 //
 
