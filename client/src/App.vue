@@ -1,9 +1,14 @@
 <template>
+<div id="global page" style ="background-color:rgb(179, 233, 255)">
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
+            <hr class="hr-primary" />
     <uploadVouchers/>
+            <hr class="hr-primary" />
     <PostCompnent/>
+            
   </div>
+</div>
 </template>
 
 <script>
@@ -28,4 +33,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+page {
+  background-color: rgb(179, 233, 255);
+}
+
 </style>

@@ -2,11 +2,14 @@
 
     <div class="container">
 
-        <a href="#" @click='toggleVoucherbox'><h1>Upload New Vouchers</h1></a> 
+         <button type="button" class="btn btn-primary" @click='toggleVoucherbox'>Upload New Vouchers</button>
          <div class="post-container" v-show="togglevoucherbox">             
-             <textarea class="textarea" :id="id" v-model="textarea"> 
+             <textarea class="form-control" rows="10" :id="id" v-model="textarea"> 
              </textarea>
-             <a href="#" @click='uploadVouchers'><h1>Upload</h1></a> 
+
+            <div id="msg" style="display: none; padding: 1em; position: fixed; margin: 1px 300px;"></div>
+             
+            <button type="button" class="btn btn-success" @click='uploadVouchers'>Upload</button>
          </div>
     </div>
 </template>

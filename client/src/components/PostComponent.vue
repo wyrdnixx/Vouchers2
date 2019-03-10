@@ -20,7 +20,7 @@
                     id="create-post" v-model="text" placeholder="Create a Post"> <button
                     v-on:click="createPost">Post</button> -->
                     <input type="text" id="user" v-model="user" placeholder="Assign Voucher to:">
-                        <button v-on:click="assignVoucher(user)">Generate Voucher Document</button>
+                        <button class="btn btn-info" v-on:click="assignVoucher(user)">Generate Voucher Document for user</button>
 
                     </div>
 
