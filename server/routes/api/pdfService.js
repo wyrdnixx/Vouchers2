@@ -62,17 +62,17 @@ class PdfService {
 
                     // usually you would use a dataUri instead of the name for client-side printing
                     // sampleImage.jpg however works inside playground so you can play with it
-                    image: 'images/logo.png',
-                    width: 150,
-                    height: 150,
+                    image: 'images/logo-mcb.png',
+                    width: 250,
+                    height: 100,
                     absolutePosition: {
-                        x: 250,
-                        y: 20
+                        x: 50,
+                        y: 30
                     },
                     noWrap: false
                 }, {
                   absolutePosition: {
-                        x: 430,
+                        x: 350,
                         y: 50
                     },
                     text: 'Ausgestellt am: ' + getDate(),
@@ -81,7 +81,7 @@ class PdfService {
                     alignment: 'left'
                 }, {
                     absolutePosition: {
-                        x: 430,
+                        x: 350,
                         y: 65
                     },
 
@@ -91,7 +91,7 @@ class PdfService {
                     alignment: 'left'
                 }, {
                   absolutePosition: {
-                    x: 430,
+                    x: 350,
                     y: 80
                 },                
                 text: 'Ausgestellt durch: ' + req.query.user,
@@ -100,7 +100,7 @@ class PdfService {
                 alignment: 'left'
                 }, {     
                   absolutePosition: {
-                  x: 430,
+                  x: 350,
                   y: 95
               },
               text: 'Fallnummer: ' + req.query.pat,

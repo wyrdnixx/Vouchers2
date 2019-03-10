@@ -76,21 +76,27 @@
 
                                                     console.log("Voucher Rolle nummer: " + rollnr  )
 
-                                                    var jsonobj = JSON.parse("[]")
-                                                     
+                                                                                                        
+                                                     var jsonstring = "["
 
 
                                                     // beginne in Zeile 7 mit den voucher Codes
                                                     for(var i = 7;i < lines.length;i++){                                                                                                     
                                                    
-                                                        var obj = JSON.stringify({"voucher": lines[i].replace(/"/g,""), "roll": rollnr})
-                                                        console.log(obj)
-                                                        jsonobj.push(obj)
+                                                        var tmp = "{'voucher' : '" + lines[i].replace(/"/g,"") + "','roll': '" + rollnr + "'}"
+                                                        if (i < lines.length -1) {
+                                                            tmp = tmp + ","
+                                                        }
+                                                        console.log("JSON Line: " + tmp)                                                        
+                                                        jsonstring = jsonstring + tmp   
+
                                                     
                                                     }
-                                                    console.log(jsonobj)
+                                                        jsonstring = jsonstring + "]"
+
+                                                    console.log("zusammengesetzter JSON-String: " + jsonstring)
                                                     //this.postVouchers(jsonobj)
-                                                    this.postVouchers(jsonobj).then(
+                                                    this.postVouchers(jsonstring).then(
                                                         response => {
                                                             console.log("Ergebniss:" + response.statusText) // actually outputs a string
 
@@ -127,6 +133,10 @@
                                             return new Promise(async (resolve, reject) => {
                                             const res = await axios.post(url, {
                                                 data
+                                              }, {
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                }
                                               })
                                               .then(function (response) {                                                                                                
                                                resolve(response);

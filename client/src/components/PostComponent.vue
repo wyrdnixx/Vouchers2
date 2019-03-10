@@ -19,8 +19,10 @@
                     <!-- <label for="create-post">Say something...</label> <input type="text"
                     id="create-post" v-model="text" placeholder="Create a Post"> <button
                     v-on:click="createPost">Post</button> -->
-                    <input type="text" id="user" v-model="user" placeholder="Assign Voucher to:">
-                        <button class="btn btn-info" v-on:click="assignVoucher(kunde)">Generate Voucher Document for user</button>
+                    <input type="text" id="firma" v-model="firma" placeholder="Firma:">
+                    <input type="text" id="name" v-model="name" placeholder="Name:">
+                    <br>
+                        <button class="btn btn-info" v-on:click="customVoucher(firma, name)">Generate Voucher Document for user</button>
 
                     </div>
 
@@ -96,7 +98,8 @@
                                                 error: ``,
                                                 voucher: ``,
                                                 roll: ``,
-                                                user: ``,
+                                                firma: ``,
+                                                name:``,
                                                 availableVouchers: ``,
                                                 togglevouchers: ``,
                                                 togglearchive: ``,
@@ -120,26 +123,54 @@
                                                 await PostService.insertPost(this.voucher, this.roll);
                                                 this.posts = await PostService.getPosts();
                                             },
-                                            async assignVoucher(user) {
+                                            async customVoucher(firma, name) {
+
+                                                // pure link für Get
+                                                // "http://docker:5000/api/posts/patVoucher/?pat=19001111&chr=adfg&name=dfgh&user=F-asdS"
+                                                const url = window.location.protocol + "//"+ window.location.hostname +":5000/api/posts/patVoucher/?pat=" +"000000" + "&chr="+firma+"&name=" + name + "&user=Web-UI"
+                                                console.log("CustomVoucher Kunde : " + name)
+                                                console.log("URL : " + url)
+                                                
+                                                 axios({
+                                                    url: url,
+                                                    method: 'GET',
+                                                    responseType: 'blob', // important
+                                                    params: {                                                    
+                                                    }
+                                                  }).then((response) => {
+                                                     const url = window.URL.createObjectURL(new Blob([response.data]));
+                                                     const link = document.createElement('a');
+                                                     link.href = url;
+                                                     link.setAttribute('download', 'file.pdf'); //or any other extension
+                                                     document.body.appendChild(link);
+                                                     link.click();
+                                                  });
+                                                   this.posts = await PostService.getPosts();
+                                                    this.availableVouchers = this.posts.length;
+                                                    this.firma = "";
+                                                    this.name = "";
+
+                                            },
+                                            async assignVoucher(kunde) {
 
                                                 var currentVoucher = this.posts[0];
                                                 console.log("Current Voucher: ", currentVoucher)
-                                                console.log("User : ->" + user + "<-")
+                                                console.log("User : ->" + kunde + "<-")
                                                 if (typeof currentVoucher == "undefined") {
                                                     console.log("No Voucher available ")
                                                     this.msgFailed("ERROR: No Vouchers available")
-                                                } else if (user == "") {
-                                                    console.log("No Username given ")
-                                                    this.msgFailed("ERROR: No Username given")
+                                                } else if (kunde == "") {
+                                                    console.log("No kunde-name given ")
+                                                    this.msgFailed("ERROR: No kunde-name given")
                                                 } else {
 
                                                     console.log("voucher: ", currentVoucher.voucher)
                                                     console.log("roll: ", currentVoucher.roll)
-                                                    console.log("user: ", user)
+                                                    console.log("user: ", kunde)
                                                     await PostService.assignVoucher(
                                                         currentVoucher.voucher,
                                                         currentVoucher.roll,
-                                                        user
+                                                        kunde
                                                     );
 
                                                     //--> PDf generieren

@@ -181,13 +181,16 @@ router.post(`/`, async (req,res) => {
 router.post('/uploadVouchers', async(req,res) => {
     const posts = await loadPostsCollection();
     console.log(`Request - Post - body: `, req.body)
- 
-    req.body.data.forEach(async doc  => {
+    
+    
+    req.body.forEach(async doc  => {
         console.log(`Element: `, doc)
-        await posts.insertOne({
+        console.log(`Element voucher: `, doc.voucher)
+        console.log(`Element roll: `, doc.roll)
+      /*  await posts.insertOne({
             voucher: doc.voucher,
             roll: doc.roll            
-        });
+        }); */
     })
     res.status(201).send();
 // res.status(500).send();
