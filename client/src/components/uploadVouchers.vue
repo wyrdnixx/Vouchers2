@@ -76,7 +76,7 @@
 
                                                     console.log("Voucher Rolle nummer: " + rollnr  )
 
-                                                                                                        
+                                                    /*                                                    
                                                      var jsonstring = "["
 
 
@@ -92,6 +92,8 @@
 
                                                     
                                                     }
+
+                                                    
                                                         jsonstring = jsonstring + "]"
 
                                                     console.log("zusammengesetzter JSON-String: " + jsonstring)
@@ -111,7 +113,35 @@
                                                         }
                                                     ).catch(
                                                        error => console.log("ERROR: " +error)
+                                                    ); */
+                                                    var jsonobj = JSON.parse("[]")
+                                                     
+                                                    // beginne in Zeile 7 mit den voucher Codes
+                                                    for(var i = 7;i < lines.length;i++){                                                                                                     
+                                                   
+                                                        //var obj = JSON.stringify({"voucher": lines[i].replace(/"/g,""), "roll": rollnr})
+                                                        var obj = {'voucher': lines[i].replace(/"/g,""), 'roll': rollnr}
+                                                        console.log(obj)
+                                                        jsonobj.push(obj)
+                                                    
+                                                    }
+                                                    console.log(jsonobj)
+                                                    //this.postVouchers(jsonobj)
+                                                    this.postVouchers(jsonobj).then(
+                                                        response => {
+                                                            console.log("Ergebniss:" + response.statusText) // actually outputs a string
+                                                            // Wenn Ergebniss erfolgeich, dann status anzeigen und Webseite neuladen
+                                                            if (response.statusText == "Created") {
+                                                                this.msgInfo("Voucher Codes wurden erfolgreich hochgeladen")                                                                
+                                                                setTimeout(function () {
+                                                                    location.reload()
+                                                                }, 4000)
+                                                            }
+                                                        }
+                                                    ).catch(
+                                                       error => console.log("ERROR: " +error)
                                                     );
+//////////////////////////////////
                                                 }
                                             }, 
                                             postVouchers(data) {    
