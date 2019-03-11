@@ -160,13 +160,31 @@ class PdfService {
                 ]},{               
                   absolutePosition: {
                     x: 50,
-                    y: 800
+                    y: 730
                 },              
               text: "Bitte beachten : Der Zugang ist nur für ein Endgerät gültig!" ,
               bold: true,
               fontSize: 18,
               alignment: 'center'
-              }, 
+              }, {               
+                absolutePosition: {
+                  x: 50,
+                  y: 780
+              },              
+            text: "Bei dem WLAN-Zugang handelt es sich um eine freiwillige Zusatzleistung des Medizin Campus Bodensee." ,
+            bold: true,
+            fontSize: 18,
+            alignment: 'center'
+            }, {               
+                absolutePosition: {
+                  x: 50,
+                  y: 850
+              },              
+            text: "Es besteht weder Anspruch auf Verfügbarkeit oder technische Unterstützung bei Problemen, noch übernimmt das Klinikum die Haftung für an das WLAN angebundene Geräte im Schadensfall." ,
+            bold: true,
+            fontSize: 18,
+            alignment: 'center'
+            }, 
               
 
             ]
